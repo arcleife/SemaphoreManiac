@@ -27,7 +27,7 @@ public class TextGeneratorScript : MonoBehaviour {
         Debug.Log("ortoWidth = " + ortoWidth);
         // load soal
         // nanti disesuaikan sama level
-        setLevel(2);
+        setLevel(1);
         curTime = generateDelay;
     }
 	
@@ -69,6 +69,8 @@ public class TextGeneratorScript : MonoBehaviour {
         {
             curTime = generateDelay + 0.1f;
         }
+
+        updateNextLetter();
     }
 
     public void cek()
@@ -120,5 +122,10 @@ public class TextGeneratorScript : MonoBehaviour {
         {
             transform.GetChild(i).GetComponent<TextBehavior>().pause(pause);
         }
+    }
+
+    void updateNextLetter()
+    {
+        transform.parent.FindChild("InputText").transform.FindChild("NextLetter").GetComponent<Text>().text = transform.parent.FindChild("InputText").GetComponent<DancematController>().huruf;
     }
 }

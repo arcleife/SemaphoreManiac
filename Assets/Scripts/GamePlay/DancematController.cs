@@ -13,7 +13,6 @@ public class DancematController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
         /*
         // default bernilai false
         T = B = U = S = TL = TG = BL = BD = false;
@@ -92,6 +91,8 @@ public class DancematController : MonoBehaviour {
         else if (T && !B && !U && !S && !TL && TG && !BL && !BD)
             huruf = "Z";
     }
+
+    
 
     void keyboardPlaceholderInput()
     {
