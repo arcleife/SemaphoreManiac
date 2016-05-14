@@ -24,7 +24,11 @@ public class AlphabetInputListener : MonoBehaviour {
 
     private Pose lastPose = Pose.Unknown;
     private float deleteTimeLeft = MAX_TIME;
-    
+
+    float delayInputTransition = 0.3f;
+    float delayTimer = 0;
+    bool isOnInputDelay = false;
+
     void Start () 
     {
         isControllerEnabled = true;
@@ -79,7 +83,8 @@ public class AlphabetInputListener : MonoBehaviour {
     {
         float inputtimebarMaxWidth = 510;
         float widthAdder = inputtimebarMaxWidth / MAX_TIME * Time.deltaTime;
-        // input huruf dari Dancemat
+        
+        // input huruf dari Dancemat        
         if (danceMat.huruf == "")
         {
             inputTimeLeft = MAX_TIME;
@@ -90,27 +95,40 @@ public class AlphabetInputListener : MonoBehaviour {
         }
         else
         {
-            inputTimeLeft -= Time.deltaTime;
-            transform.FindChild("InputTime").GetComponent<RectTransform>().sizeDelta = new Vector2(
-                transform.FindChild("InputTime").GetComponent<RectTransform>().rect.width + widthAdder,
-                transform.FindChild("InputTime").GetComponent<RectTransform>().rect.height);
-            if (danceMat.huruf != lastChar)
+            if (inputText.text.Length < maxStringLength && !isOnInputDelay)
             {
-                inputTimeLeft = MAX_TIME;
+                inputTimeLeft -= Time.deltaTime;
                 transform.FindChild("InputTime").GetComponent<RectTransform>().sizeDelta = new Vector2(
-                0,
-                transform.FindChild("InputTime").GetComponent<RectTransform>().rect.height);
-                lastChar = danceMat.huruf;
-            }
-            else
-            {
-                if (inputTimeLeft < 0)
+                    transform.FindChild("InputTime").GetComponent<RectTransform>().rect.width + widthAdder,
+                    transform.FindChild("InputTime").GetComponent<RectTransform>().rect.height);
+                if (danceMat.huruf != lastChar)
                 {
-                    inputText.text += lastChar;
                     inputTimeLeft = MAX_TIME;
                     transform.FindChild("InputTime").GetComponent<RectTransform>().sizeDelta = new Vector2(
                     0,
                     transform.FindChild("InputTime").GetComponent<RectTransform>().rect.height);
+                    lastChar = danceMat.huruf;
+                }
+                else
+                {
+                    if (inputTimeLeft < 0)
+                    {
+                        inputText.text += lastChar;
+                        inputTimeLeft = MAX_TIME;
+                        transform.FindChild("InputTime").GetComponent<RectTransform>().sizeDelta = new Vector2(
+                        0,
+                        transform.FindChild("InputTime").GetComponent<RectTransform>().rect.height);
+                        isOnInputDelay = true;
+                    }
+                }
+            }
+            else
+            {
+                delayTimer += Time.deltaTime;
+                if (delayTimer > delayInputTransition)
+                {
+                    isOnInputDelay = false;
+                    delayTimer = 0;
                 }
             }
         } //> input huruf dari Dancemat
