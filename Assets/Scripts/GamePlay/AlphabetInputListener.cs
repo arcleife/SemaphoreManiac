@@ -77,19 +77,29 @@ public class AlphabetInputListener : MonoBehaviour {
 
     private void danceMatAction()
     {
+        float inputtimebarMaxWidth = 510;
+        float widthAdder = inputtimebarMaxWidth / MAX_TIME * Time.deltaTime;
         // input huruf dari Dancemat
         if (danceMat.huruf == "")
         {
             inputTimeLeft = MAX_TIME;
             lastChar = danceMat.huruf;
+            transform.FindChild("InputTime").GetComponent<RectTransform>().sizeDelta = new Vector2(
+                0,
+                transform.FindChild("InputTime").GetComponent<RectTransform>().rect.height);
         }
         else
         {
             inputTimeLeft -= Time.deltaTime;
-
+            transform.FindChild("InputTime").GetComponent<RectTransform>().sizeDelta = new Vector2(
+                transform.FindChild("InputTime").GetComponent<RectTransform>().rect.width + widthAdder,
+                transform.FindChild("InputTime").GetComponent<RectTransform>().rect.height);
             if (danceMat.huruf != lastChar)
             {
                 inputTimeLeft = MAX_TIME;
+                transform.FindChild("InputTime").GetComponent<RectTransform>().sizeDelta = new Vector2(
+                0,
+                transform.FindChild("InputTime").GetComponent<RectTransform>().rect.height);
                 lastChar = danceMat.huruf;
             }
             else
@@ -98,6 +108,9 @@ public class AlphabetInputListener : MonoBehaviour {
                 {
                     inputText.text += lastChar;
                     inputTimeLeft = MAX_TIME;
+                    transform.FindChild("InputTime").GetComponent<RectTransform>().sizeDelta = new Vector2(
+                    0,
+                    transform.FindChild("InputTime").GetComponent<RectTransform>().rect.height);
                 }
             }
         } //> input huruf dari Dancemat

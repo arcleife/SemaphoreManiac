@@ -23,8 +23,8 @@ public class TextGeneratorScript : MonoBehaviour {
         isPaused = false;
         ortoHeight = 2 * Camera.main.orthographicSize;
         ortoWidth = ortoHeight * Camera.main.aspect;
-        Debug.Log("ortoHeight = " + ortoHeight);
-        Debug.Log("ortoWidth = " + ortoWidth);
+        //Debug.Log("ortoHeight = " + ortoHeight);
+        //Debug.Log("ortoWidth = " + ortoWidth);
         // load soal
         // nanti disesuaikan sama level
         setLevel(1);
