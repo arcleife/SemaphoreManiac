@@ -9,6 +9,9 @@ public class GameStateManager : MonoBehaviour {
     public bool isPaused;
     public bool isGameplay;
 
+    float ortoHeight;
+    float ortoWidth;
+
     float countdown;
 
 	// Use this for initialization
@@ -38,7 +41,7 @@ public class GameStateManager : MonoBehaviour {
                 if (countdown > 3.5f)
                 {
                     isIntro = false;
-                    Destroy(transform.FindChild("Countdown").gameObject);
+                    transform.FindChild("Countdown").gameObject.SetActive(false);
                     isGameplay = true;
                 }
             }
@@ -63,7 +66,7 @@ public class GameStateManager : MonoBehaviour {
             }
             textGen.GetComponent<TextGeneratorScript>().pauseGame(true);
             transform.FindChild("InputText").GetComponent<AlphabetInputListener>().isControllerEnabled = false;
-            Debug.Log("Game Over!");
+            transform.FindChild("GameOverCaption").gameObject.SetActive(true);
         }
     }
 
@@ -72,7 +75,7 @@ public class GameStateManager : MonoBehaviour {
         transform.FindChild("InputText").GetComponent<AlphabetInputListener>().isControllerEnabled = !state;
         isPaused = state;
         textGen.GetComponent<TextGeneratorScript>().pauseGame(state);
-        Debug.Log(transform.FindChild("InputText").GetComponent<AlphabetInputListener>().isControllerEnabled);
+        transform.FindChild("PauseMask").GetComponent<Image>().enabled = state;
     }
 
     public void startGame()

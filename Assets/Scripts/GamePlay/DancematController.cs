@@ -37,59 +37,62 @@ public class DancematController : MonoBehaviour {
 
 
         // pengkodean huruf sesuai semaphore
-        huruf = "";
-        if (!T && !B && !U && S && !TL && !TG && !BL && BD)
-            huruf = "A";
-        else if (!T && B && !U && S && !TL && !TG && !BL && !BD)
-            huruf = "B";
-        else if (!T && !B && !U && S && !TL && !TG && BL && !BD)
-            huruf = "C";
-        else if (!T && !B && U && S && !TL && !TG && !BL && !BD)
-            huruf = "D";
-        else if (!T && !B && !U && S && TL && !TG && !BL && !BD)
-            huruf = "E";
-        else if (T && !B && !U && S && !TL && !TG && !BL && !BD)
-            huruf = "F";
-        else if (!T && !B && !U && S && !TL && TG && !BL && !BD)
-            huruf = "G";
-        else if (!T && B && !U && !S && !TL && !TG && !BL && BD)
-            huruf = "H";
-        else if (!T && !B && !U && !S && !TL && !TG && BL && BD)
-            huruf = "I";
-        else if (T && !B && U && !S && !TL && !TG && !BL && !BD)
-            huruf = "J";
-        else if (!T && !B && U && !S && !TL && !TG && !BL && BD)
-            huruf = "K";
-        else if (!T && !B && !U && !S && TL && !TG && !BL && BD)
-            huruf = "L";
-        else if (T && !B && !U && !S && !TL && !TG && !BL && BD)
-            huruf = "M";
-        else if (!T && !B && !U && !S && !TL && TG && !BL && BD)
-            huruf = "N";
-        else if (!T && B && !U && !S && !TL && !TG && BL && !BD)
-            huruf = "O";
-        else if (!T && B && U && !S && !TL && !TG && !BL && !BD)
-            huruf = "P";
-        else if (!T && !B && !U && !S && TL && !TG && !BL && BD)
-            huruf = "Q";
-        else if (T && B && !U && !S && !TL && !TG && !BL && !BD)
-            huruf = "R";
-        else if (!T && B && !U && !S && !TL && TG && !BL && !BD)
-            huruf = "S";
-        else if (!T && !B && U && !S && !TL && !TG && BL && !BD)
-            huruf = "T";
-        else if (!T && !B && !U && !S && TL && !TG && BL && !BD)
-            huruf = "U";
-        else if (!T && !B && U && !S && !TL && TG && !BL && !BD)
-            huruf = "V";
-        else if (T && !B && !U && !S && TL && !TG && !BL && !BD)
-            huruf = "W";
-        else if (!T && !B && !U && !S && TL && TG && !BL && !BD)
-            huruf = "X";
-        else if (T && !B && !U && !S && !TL && !TG && BL && !BD)
-            huruf = "Y";
-        else if (T && !B && !U && !S && !TL && TG && !BL && !BD)
-            huruf = "Z";
+        if (!transform.parent.GetComponent<GameStateManager>().isPaused)
+        {
+            huruf = "";
+            if (!T && !B && !U && S && !TL && !TG && !BL && BD)
+                huruf = "A";
+            else if (!T && B && !U && S && !TL && !TG && !BL && !BD)
+                huruf = "B";
+            else if (!T && !B && !U && S && !TL && !TG && BL && !BD)
+                huruf = "C";
+            else if (!T && !B && U && S && !TL && !TG && !BL && !BD)
+                huruf = "D";
+            else if (!T && !B && !U && S && TL && !TG && !BL && !BD)
+                huruf = "E";
+            else if (T && !B && !U && S && !TL && !TG && !BL && !BD)
+                huruf = "F";
+            else if (!T && !B && !U && S && !TL && TG && !BL && !BD)
+                huruf = "G";
+            else if (!T && B && !U && !S && !TL && !TG && !BL && BD)
+                huruf = "H";
+            else if (!T && !B && !U && !S && !TL && !TG && BL && BD)
+                huruf = "I";
+            else if (T && !B && U && !S && !TL && !TG && !BL && !BD)
+                huruf = "J";
+            else if (!T && !B && U && !S && !TL && !TG && !BL && BD)
+                huruf = "K";
+            else if (!T && !B && !U && !S && TL && !TG && !BL && BD)
+                huruf = "L";
+            else if (T && !B && !U && !S && !TL && !TG && !BL && BD)
+                huruf = "M";
+            else if (!T && !B && !U && !S && !TL && TG && !BL && BD)
+                huruf = "N";
+            else if (!T && B && !U && !S && !TL && !TG && BL && !BD)
+                huruf = "O";
+            else if (!T && B && U && !S && !TL && !TG && !BL && !BD)
+                huruf = "P";
+            else if (!T && !B && !U && !S && TL && !TG && !BL && BD)
+                huruf = "Q";
+            else if (T && B && !U && !S && !TL && !TG && !BL && !BD)
+                huruf = "R";
+            else if (!T && B && !U && !S && !TL && TG && !BL && !BD)
+                huruf = "S";
+            else if (!T && !B && U && !S && !TL && !TG && BL && !BD)
+                huruf = "T";
+            else if (!T && !B && !U && !S && TL && !TG && BL && !BD)
+                huruf = "U";
+            else if (!T && !B && U && !S && !TL && TG && !BL && !BD)
+                huruf = "V";
+            else if (T && !B && !U && !S && TL && !TG && !BL && !BD)
+                huruf = "W";
+            else if (!T && !B && !U && !S && TL && TG && !BL && !BD)
+                huruf = "X";
+            else if (T && !B && !U && !S && !TL && !TG && BL && !BD)
+                huruf = "Y";
+            else if (T && !B && !U && !S && !TL && TG && !BL && !BD)
+                huruf = "Z";
+        }
     }
 
     
