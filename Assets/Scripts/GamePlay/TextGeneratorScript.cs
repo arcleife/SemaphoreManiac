@@ -10,6 +10,7 @@ public class TextGeneratorScript : MonoBehaviour {
 
     public float generateDelay;
     float curTime;
+    float randomAdditionalTime = 1f;
 
     float ortoWidth;
     float ortoHeight;
@@ -61,13 +62,20 @@ public class TextGeneratorScript : MonoBehaviour {
                     newText.transform.FindChild("Frame").transform.position = new Vector3(newText.transform.FindChild("Frame").transform.position.x + 3, newText.transform.FindChild("Frame").transform.position.y);
                 }
             }
-            curTime = 0;
+            curTime = 0 - Random.Range(0, randomAdditionalTime);
         }
 
         //biar kalo di layar teks nya 0 langsung spawn yang baru
         if (transform.childCount <= 0 && transform.parent.gameObject.GetComponent<GameStateManager>().isGameplay)
         {
             curTime = generateDelay + 0.1f;
+        }
+
+        //reset animation
+        
+        if (transform.parent.FindChild("Score").FindChild("ScoreText").GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
+        {
+            transform.parent.FindChild("Score").FindChild("ScoreText").GetComponent<Animator>().SetBool("isScoreUp", false);
         }
 
         updateNextLetter();
@@ -81,8 +89,8 @@ public class TextGeneratorScript : MonoBehaviour {
         {
             if (transform.GetChild(i).GetComponent<TextBehavior>().textRemaining == "")
             {
-                //Debug.Log("beneeeer");
-                ScoreManager.increment(10);
+                transform.parent.FindChild("Score").FindChild("ScoreText").GetComponent<Animator>().SetBool("isScoreUp", true);
+                ScoreManager.increment(10 * transform.parent.FindChild("InputText").GetComponent<Text>().text.Length);
                 transform.GetChild(i).GetComponent<TextBehavior>().destroy();
                 transform.parent.FindChild("InputText").GetComponent<Text>().text = "";
                 isMatch = true;
@@ -91,7 +99,6 @@ public class TextGeneratorScript : MonoBehaviour {
         }
         if (!isMatch)
         {
-            //Debug.Log("salaaaah");
             HeartManager.decrement();
         }
     }

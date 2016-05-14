@@ -17,7 +17,6 @@ public class ScoreManager : MonoBehaviour
     {
         score += value;
         scoreText.text = score.ToString();
-        GameObject.Find("ScoreText").GetComponent<Animator>().SetTrigger("ScoreUp");
     }
 
     public static void decrement(int value)

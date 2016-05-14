@@ -95,7 +95,7 @@ public class AlphabetInputListener : MonoBehaviour {
         }
         else
         {
-            if (inputText.text.Length < maxStringLength && !isOnInputDelay)
+            if (inputText.text.Length < maxStringLength && !isOnInputDelay && transform.parent.GetComponent<GameStateManager>().isGameplay)
             {
                 inputTimeLeft -= Time.deltaTime;
                 transform.FindChild("InputTime").GetComponent<RectTransform>().sizeDelta = new Vector2(

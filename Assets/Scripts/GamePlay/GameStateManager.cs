@@ -25,6 +25,7 @@ public class GameStateManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        //Debug.Log(transform.FindChild("Score").FindChild("ScoreText").GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
         //intro
         if (isIntro)
         {
@@ -67,6 +68,9 @@ public class GameStateManager : MonoBehaviour {
             textGen.GetComponent<TextGeneratorScript>().pauseGame(true);
             transform.FindChild("InputText").GetComponent<AlphabetInputListener>().isControllerEnabled = false;
             transform.FindChild("GameOverCaption").gameObject.SetActive(true);
+            transform.FindChild("InputText").transform.FindChild("InputTime").GetComponent<RectTransform>().sizeDelta = new Vector2(
+                0,
+                transform.FindChild("InputText").transform.FindChild("InputTime").GetComponent<RectTransform>().rect.height);
         }
     }
 
