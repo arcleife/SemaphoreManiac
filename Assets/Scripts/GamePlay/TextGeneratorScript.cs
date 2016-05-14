@@ -28,7 +28,7 @@ public class TextGeneratorScript : MonoBehaviour {
         //Debug.Log("ortoWidth = " + ortoWidth);
         // load soal
         // nanti disesuaikan sama level
-        setLevel(1);
+        setLevel(2);
         curTime = generateDelay;
     }
 	

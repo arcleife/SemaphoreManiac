@@ -171,6 +171,7 @@ public class DancematController : MonoBehaviour {
         {
             TG = false;
         }
+        /*
         if (Input.GetKeyDown(KeyCode.Backspace)) // delete or backspace
         {
             //delete char
@@ -182,6 +183,6 @@ public class DancematController : MonoBehaviour {
         else if (Input.GetKeyDown(KeyCode.Return)) // enter
         {
             transform.parent.FindChild("TextGenerator").GetComponent<TextGeneratorScript>().cek();
-        }
+        }*/
     }
 }
