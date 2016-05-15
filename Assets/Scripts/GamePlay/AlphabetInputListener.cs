@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using Thalmic.Myo;
+using System;
 
 public class AlphabetInputListener : MonoBehaviour {
     
@@ -11,6 +12,8 @@ public class AlphabetInputListener : MonoBehaviour {
     public GameObject textGen;
 
     public bool isControllerEnabled;
+
+    public AudioClip[] inputSFX;
 
     private DancematController danceMat;
     private ThalmicMyo myo = null;
@@ -113,6 +116,7 @@ public class AlphabetInputListener : MonoBehaviour {
                 {
                     if (inputTimeLeft < 0)
                     {
+                        AudioSource.PlayClipAtPoint(inputSFX[lastChar[0]-'A'], new UnityEngine.Vector3 (0, 0, 0));
                         inputText.text += lastChar;
                         inputTimeLeft = MAX_TIME;
                         transform.FindChild("InputTime").GetComponent<RectTransform>().sizeDelta = new Vector2(

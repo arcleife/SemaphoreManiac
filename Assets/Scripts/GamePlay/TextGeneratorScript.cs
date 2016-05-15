@@ -26,6 +26,8 @@ public class TextGeneratorScript : MonoBehaviour {
     List<string> textDict; //dictionary text yang digenerate
     List<string> rightTextDict; //dictionary IDtext yang udah bener jawabnya, gunanya pas tutorial aja
 
+    public AudioClip RightAnswerSFX;
+    public AudioClip WrongAnswerSFX;
     // Use this for initialization
     void Start () {
         isPaused = false;
@@ -139,6 +141,7 @@ public class TextGeneratorScript : MonoBehaviour {
                 transform.parent.FindChild("InputText").GetComponent<Text>().text = "";
                 isMatch = true;
                 wordNumToFinish--;
+                AudioSource.PlayClipAtPoint(RightAnswerSFX, new Vector3(0, 0, 0));
                 break;
             }
         }
@@ -146,6 +149,7 @@ public class TextGeneratorScript : MonoBehaviour {
         {
             transform.parent.GetComponent<CameraController>().ShakeCamera(0.05f, 0.2f);
             HeartManager.decrement();
+            AudioSource.PlayClipAtPoint(WrongAnswerSFX, new Vector3(0, 0, 0));
         }
     }
 
