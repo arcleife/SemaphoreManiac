@@ -13,9 +13,8 @@ public class DancematController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        /*
         // default bernilai false
-        T = B = U = S = TL = TG = BL = BD = false;
+        //T = B = U = S = TL = TG = BL = BD = false;
 
         // Input Manager : Type pada Horizontal dan Vertical harus "Joystick Axis"
         if (Input.GetAxis("Horizontal") > 0 && Input.GetAxis("Horizontal") < 1) T = B = true; // kanan dan kiri
@@ -30,7 +29,6 @@ public class DancematController : MonoBehaviour {
         if (Input.GetKey(KeyCode.JoystickButton1)) TL = true; // kanan atas
         if (Input.GetKey(KeyCode.JoystickButton2)) BL = true; // kiri atas
         if (Input.GetKey(KeyCode.JoystickButton3)) TG = true; // kanan bawah
-        */
         
         // pake keyboard dulu
         keyboardPlaceholderInput();
@@ -99,91 +97,94 @@ public class DancematController : MonoBehaviour {
 
     void keyboardPlaceholderInput()
     {
-        // timur
-        if (Input.GetKeyDown(KeyCode.D))
+        if (GetComponent<AlphabetInputListener>().isControllerEnabled)
         {
-            T = true;
-        }
-        else if (Input.GetKeyUp(KeyCode.D))
-        {
-            T = false;
-        }
-        // barat
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            B = true;
-        }
-        else if (Input.GetKeyUp(KeyCode.A))
-        {
-            B = false;
-        }
-        // utara
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            U = true;
-        }
-        else if (Input.GetKeyUp(KeyCode.W))
-        {
-            U = false;
-        }
-        // selatan
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            S = true;
-        }
-        else if (Input.GetKeyUp(KeyCode.X))
-        {
-            S = false;
-        }
-        // barat daya
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            BD = true;
-        }
-        else if (Input.GetKeyUp(KeyCode.Z))
-        {
-            BD = false;
-        }
-        // timur laut
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            TL = true;
-        }
-        else if (Input.GetKeyUp(KeyCode.E))
-        {
-            TL = false;
-        }
-        // barat laut
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            BL = true;
-        }
-        else if (Input.GetKeyUp(KeyCode.Q))
-        {
-            BL = false;
-        }
-        // tenggara
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            TG = true;
-        }
-        else if (Input.GetKeyUp(KeyCode.C))
-        {
-            TG = false;
-        }
-        if (!GetComponent<AlphabetInputListener>().isUseMyo)
-        {
-            if (Input.GetKeyDown(KeyCode.Mouse1)) // delete or backspace
+            // timur
+            if (Input.GetKeyDown(KeyCode.D))
             {
-                //delete char
-                if (GetComponent<Text>().text.Length > 0)
-                {
-                    GetComponent<Text>().text = GetComponent<Text>().text.Substring(0, GetComponent<Text>().text.Length - 1);
-                }
+                T = true;
             }
-            else if (Input.GetKeyDown(KeyCode.Mouse0)) // enter
+            else if (Input.GetKeyUp(KeyCode.D))
             {
-                transform.parent.FindChild("TextGenerator").GetComponent<TextGeneratorScript>().cek();
+                T = false;
+            }
+            // barat
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                B = true;
+            }
+            else if (Input.GetKeyUp(KeyCode.A))
+            {
+                B = false;
+            }
+            // utara
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                U = true;
+            }
+            else if (Input.GetKeyUp(KeyCode.W))
+            {
+                U = false;
+            }
+            // selatan
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                S = true;
+            }
+            else if (Input.GetKeyUp(KeyCode.X))
+            {
+                S = false;
+            }
+            // barat daya
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+                BD = true;
+            }
+            else if (Input.GetKeyUp(KeyCode.Z))
+            {
+                BD = false;
+            }
+            // timur laut
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                TL = true;
+            }
+            else if (Input.GetKeyUp(KeyCode.E))
+            {
+                TL = false;
+            }
+            // barat laut
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                BL = true;
+            }
+            else if (Input.GetKeyUp(KeyCode.Q))
+            {
+                BL = false;
+            }
+            // tenggara
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                TG = true;
+            }
+            else if (Input.GetKeyUp(KeyCode.C))
+            {
+                TG = false;
+            }
+            if (!GetComponent<AlphabetInputListener>().isUseMyo)
+            {
+                if (Input.GetKeyDown(KeyCode.Mouse1)) // delete or backspace
+                {
+                    //delete char
+                    if (GetComponent<Text>().text.Length > 0)
+                    {
+                        GetComponent<Text>().text = GetComponent<Text>().text.Substring(0, GetComponent<Text>().text.Length - 1);
+                    }
+                }
+                else if (Input.GetKeyDown(KeyCode.Mouse0)) // enter
+                {
+                    transform.parent.FindChild("TextGenerator").GetComponent<TextGeneratorScript>().cek();
+                }
             }
         }
     }

@@ -25,7 +25,7 @@ public class TextBehavior : MonoBehaviour {
         inputText = this.transform.parent.transform.parent.FindChild("InputText").GetComponent<Text>();
         textHighlighted = "";
         textRemaining = text;
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -36,7 +36,7 @@ public class TextBehavior : MonoBehaviour {
         if (!isPaused)
         {
             //jatoh trus ancur kalo lewat kamera
-            transform.position = new Vector3(transform.position.x, transform.position.y - fallSpeed);
+            transform.position = new Vector3(transform.position.x, transform.position.y - fallSpeed, 80);
             if (transform.position.y < -0.5f * (transform.FindChild("Highlighted").GetComponent<RectTransform>().rect.height))
             {
                 // Debug.Log("health minus!");

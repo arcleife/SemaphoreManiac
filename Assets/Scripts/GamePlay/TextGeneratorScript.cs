@@ -33,11 +33,11 @@ public class TextGeneratorScript : MonoBehaviour {
         tutorialWordCounter = 0;
         ortoHeight = 2 * Camera.main.orthographicSize;
         ortoWidth = ortoHeight * Camera.main.aspect;
-        //Debug.Log("ortoHeight = " + ortoHeight);
-        //Debug.Log("ortoWidth = " + ortoWidth);
+        Debug.Log("ortoHeight = " + ortoHeight);
+        Debug.Log("ortoWidth = " + ortoWidth);
         // load soal
         // nanti disesuaikan sama level
-        setLevel(2);
+        setLevel(1);
         curTime = generateDelay;
         rightTextDict = new List<string>();
         if (tutorialID > 0)
@@ -90,11 +90,10 @@ public class TextGeneratorScript : MonoBehaviour {
                 GameObject newText = (GameObject) Instantiate(textGameObject);
                 newText.transform.SetParent(transform);
                 newText.transform.localScale = new Vector3 (1, 1, 1);
-                newText.transform.position = new Vector3(Random.Range(10, Screen.width - 150), Screen.height + 5);
+                newText.transform.position = new Vector3(Random.Range(-ortoWidth/2+3.3f, ortoWidth / 2 - 5f), ortoHeight/2, 0);
                 newText.GetComponent<TextBehavior>().setText(text);
                 newText.GetComponent<TextBehavior>().fallSpeed = textFallSpeed;
                 newText.transform.FindChild("Highlighted").FindChild("Remaining").GetComponent<ContentSizeFitter>().enabled = true;
-                //Debug.Log (newText.transform.FindChild("Highlighted").FindChild("Remaining").GetComponent<RectTransform>().rect.width);
                 if (text.Length == 3)
                 {
                     newText.transform.FindChild("Frame").transform.position = new Vector3(newText.transform.FindChild("Frame").transform.position.x - 4, newText.transform.FindChild("Frame").transform.position.y);
@@ -145,6 +144,7 @@ public class TextGeneratorScript : MonoBehaviour {
         }
         if (!isMatch)
         {
+            transform.parent.GetComponent<CameraController>().ShakeCamera(0.05f, 0.2f);
             HeartManager.decrement();
         }
     }
@@ -162,14 +162,14 @@ public class TextGeneratorScript : MonoBehaviour {
                 generateDelay = 2;
                 tutorialID = 1;
                 wordNumToFinish = textDict.Count;
-                textFallSpeed = 0.5f;
+                textFallSpeed = 0.01f;
                 break;
             case 2:
                 maxTextOnScreen = 5;
                 generateDelay = 5;
                 wordNumToFinish = 5;
                 tutorialID = 0;
-                textFallSpeed = 0.5f;
+                textFallSpeed = 0.01f;
                 break;
             default:
                 break;
