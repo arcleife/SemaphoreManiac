@@ -6,6 +6,7 @@ public class GameStateManager : MonoBehaviour {
     public GameObject textGen;
     public bool isIntro;
     public bool isGameover;
+    public bool isClear;
     public bool isPaused;
     public bool isGameplay;
 
@@ -20,12 +21,12 @@ public class GameStateManager : MonoBehaviour {
         isIntro = true;
         isGameplay = false;
         isGameover = false;
+        isClear = false;
         isPaused = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        //Debug.Log(transform.FindChild("Score").FindChild("ScoreText").GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime);
         //intro
         if (isIntro)
         {
@@ -44,6 +45,7 @@ public class GameStateManager : MonoBehaviour {
                     isIntro = false;
                     transform.FindChild("Countdown").gameObject.SetActive(false);
                     isGameplay = true;
+                    transform.FindChild("InputText").GetComponent<AlphabetInputListener>().isControllerEnabled = true;
                 }
             }
         }
@@ -52,11 +54,30 @@ public class GameStateManager : MonoBehaviour {
         if (isGameplay)
         {
             //cek gameover apa ngga
-            if (HeartManager.getHeart() <= 0)
+            if (HeartManager.getHeart() < 1)
             {
                 isGameover = true;
                 isGameplay = false;
+            } else if (transform.FindChild("TextGenerator").GetComponent<TextGeneratorScript>().wordNumToFinish <= 0)
+            {
+                isClear = true;
+                isGameplay = false;
             }
+        }
+
+        if (isClear)
+        {
+            for (int i = 0; i < textGen.transform.childCount; i++)
+            {
+                textGen.transform.GetChild(i).GetComponent<TextBehavior>().destroy();
+            }
+            textGen.GetComponent<TextGeneratorScript>().pauseGame(true);
+            transform.FindChild("InputText").GetComponent<AlphabetInputListener>().isControllerEnabled = false;
+            transform.FindChild("GameOverCaption").gameObject.SetActive(true);
+            transform.FindChild("GameOverCaption").GetComponent<Text>().text = "Nice Job!";
+            transform.FindChild("InputText").transform.FindChild("InputTime").GetComponent<RectTransform>().sizeDelta = new Vector2(
+                0,
+                transform.FindChild("InputText").transform.FindChild("InputTime").GetComponent<RectTransform>().rect.height);
         }
 
         if (isGameover)

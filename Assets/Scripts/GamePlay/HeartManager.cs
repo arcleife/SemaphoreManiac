@@ -31,12 +31,14 @@ public class HeartManager : MonoBehaviour {
         for (int i = 1; i <= MAX_HEART; i++)
         {
             GameObject.Find("Heart-" + i).transform.localScale = new Vector3(0, 0);
+            GameObject.Find("shadow-" + i).transform.localScale = new Vector3(0, 0);
         }
 
         // enable sesuai heart
         for (int i = 1; i <= jumHeart; i++)
         {
             GameObject.Find("Heart-" + i).transform.localScale = new Vector3(1, 1);
+            GameObject.Find("shadow-" + i).transform.localScale = new Vector3(1, 1);
         }
     }
 

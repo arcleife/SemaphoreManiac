@@ -31,7 +31,7 @@ public class AlphabetInputListener : MonoBehaviour {
 
     void Start () 
     {
-        isControllerEnabled = true;
+        //isControllerEnabled = true;
         if (!isUseKeyboard)
         {
             danceMat = GetComponent<DancematController>();

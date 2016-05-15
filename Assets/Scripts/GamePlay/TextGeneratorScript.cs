@@ -9,27 +9,37 @@ public class TextGeneratorScript : MonoBehaviour {
     public GameObject gameStateManager;
 
     public float generateDelay;
+    int wordIDToSpawn;
     float curTime;
     float randomAdditionalTime = 1f;
 
     float ortoWidth;
     float ortoHeight;
 
+    public int wordNumToFinish; // berapa kata yang harus diancurin biar lolos stage
+    int tutorialID; // tutorial mana yang dimunculin (0 buat tanpa tutorial)
+    int tutorialWordCounter; // jumlah kata yang udah keluar pas tutorial
+    float textFallSpeed;
+
     bool isPaused;
 
     List<string> textDict; //dictionary text yang digenerate
+    List<string> rightTextDict; //dictionary IDtext yang udah bener jawabnya, gunanya pas tutorial aja
 
     // Use this for initialization
     void Start () {
         isPaused = false;
+        wordIDToSpawn = 0;
+        tutorialWordCounter = 0;
         ortoHeight = 2 * Camera.main.orthographicSize;
         ortoWidth = ortoHeight * Camera.main.aspect;
         //Debug.Log("ortoHeight = " + ortoHeight);
         //Debug.Log("ortoWidth = " + ortoWidth);
         // load soal
         // nanti disesuaikan sama level
-        setLevel(2);
+        setLevel(1);
         curTime = generateDelay;
+        rightTextDict = new List<string>();
     }
 	
 	// Update is called once per frame
@@ -44,14 +54,34 @@ public class TextGeneratorScript : MonoBehaviour {
             if (transform.childCount < maxTextOnScreen)
             {
                 string text;
-                // random soal
-                text = textDict[Random.Range(0, textDict.Count)];
+                // tutorial apa ngga, kalo tutorial selalu jamin minimal tiap word keluar
+                if (tutorialID <= 0)
+                {
+                    wordIDToSpawn = Random.Range(0, textDict.Count);
+                    text = textDict[Random.Range(0, textDict.Count)];
+                } else
+                {
+                    tutorialWordCounter++;
+                    text = textDict[wordIDToSpawn % textDict.Count];
+                    wordIDToSpawn++;
+                    wordIDToSpawn %= textDict.Count;
+                    if (tutorialWordCounter / textDict.Count >= 1)
+                    {
+                        // berarti udah 1 loop, cek kalo yang keluar kata yang udah bener langsung dinext
+                        while (rightTextDict.Exists(x => x == textDict[wordIDToSpawn]))
+                        {
+                            wordIDToSpawn++;
+                            wordIDToSpawn %= textDict.Count;
+                        }
+                    }
+                }
                 // bikin object
                 GameObject newText = (GameObject) Instantiate(textGameObject);
                 newText.transform.SetParent(transform);
                 newText.transform.localScale = new Vector3 (1, 1, 1);
                 newText.transform.position = new Vector3(Random.Range(10, Screen.width - 150), Screen.height + 5);
                 newText.GetComponent<TextBehavior>().setText(text);
+                newText.GetComponent<TextBehavior>().fallSpeed = textFallSpeed;
                 newText.transform.FindChild("Highlighted").FindChild("Remaining").GetComponent<ContentSizeFitter>().enabled = true;
                 //Debug.Log (newText.transform.FindChild("Highlighted").FindChild("Remaining").GetComponent<RectTransform>().rect.width);
                 if (text.Length == 3)
@@ -90,10 +120,15 @@ public class TextGeneratorScript : MonoBehaviour {
             if (transform.GetChild(i).GetComponent<TextBehavior>().textRemaining == "")
             {
                 transform.parent.FindChild("Score").FindChild("ScoreText").GetComponent<Animator>().SetBool("isScoreUp", true);
-                ScoreManager.increment(10 * transform.parent.FindChild("InputText").GetComponent<Text>().text.Length);
+                ScoreManager.increment(10 * transform.parent.FindChild("InputText").GetComponent<Text>().text.Length + HeartManager.getHeart());
                 transform.GetChild(i).GetComponent<TextBehavior>().destroy();
+                if (tutorialID > 0)
+                {
+                    rightTextDict.Add(transform.parent.FindChild("InputText").GetComponent<Text>().text);
+                }
                 transform.parent.FindChild("InputText").GetComponent<Text>().text = "";
                 isMatch = true;
+                wordNumToFinish--;
                 break;
             }
         }
@@ -110,12 +145,18 @@ public class TextGeneratorScript : MonoBehaviour {
         switch (level)
         {
             case 1:
-                maxTextOnScreen = 5;
-                generateDelay = 5;
+                maxTextOnScreen = 1;
+                generateDelay = 2;
+                wordNumToFinish = textDict.Count;
+                tutorialID = 1;
+                textFallSpeed = 1f;
                 break;
             case 2:
                 maxTextOnScreen = 5;
                 generateDelay = 5;
+                wordNumToFinish = 5;
+                tutorialID = 0;
+                textFallSpeed = 0.25f;
                 break;
             default:
                 break;
