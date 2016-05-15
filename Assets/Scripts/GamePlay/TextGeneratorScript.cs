@@ -37,7 +37,7 @@ public class TextGeneratorScript : MonoBehaviour {
         //Debug.Log("ortoWidth = " + ortoWidth);
         // load soal
         // nanti disesuaikan sama level
-        setLevel(1);
+        setLevel(2);
         curTime = generateDelay;
         rightTextDict = new List<string>();
         if (tutorialID > 0)
@@ -156,11 +156,13 @@ public class TextGeneratorScript : MonoBehaviour {
         switch (level)
         {
             case 1:
+                // tutorial 1
+                // pengenalan 5 huruf pertama
                 maxTextOnScreen = 1;
                 generateDelay = 2;
                 tutorialID = 1;
                 wordNumToFinish = textDict.Count;
-                textFallSpeed = 1f;
+                textFallSpeed = 0.5f;
                 break;
             case 2:
                 maxTextOnScreen = 5;
