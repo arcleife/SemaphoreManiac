@@ -30,22 +30,29 @@ public class GameStateManager : MonoBehaviour {
         //intro
         if (isIntro)
         {
-            countdown += Time.deltaTime;
-            if (countdown < 2.99f)
+            if (transform.FindChild("Countdown").GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
             {
-                transform.FindChild("Countdown").FindChild("CountdownTime").GetComponent<Text>().text = (3 - Mathf.FloorToInt(countdown)).ToString();
+                transform.FindChild("CountdownTime").GetComponent<Animator>().SetBool("isIdle", false);
             }
-            else
+            if (!transform.FindChild("CountdownTime").GetComponent<Animator>().GetBool("isIdle"))
             {
-                transform.FindChild("Countdown").GetComponent<Text>().text = "";
-                transform.FindChild("Countdown").FindChild("CountdownTime").GetComponent<Text>().text = "Go";
-                transform.FindChild("Countdown").FindChild("CountdownTime").GetComponent<Animator>().SetBool("isCountingdown", false);
-                if (countdown > 3.5f)
+                countdown += Time.deltaTime;
+                if (countdown < 2.99f)
                 {
-                    isIntro = false;
-                    transform.FindChild("Countdown").gameObject.SetActive(false);
-                    isGameplay = true;
-                    transform.FindChild("InputText").GetComponent<AlphabetInputListener>().isControllerEnabled = true;
+                    transform.FindChild("CountdownTime").GetComponent<Text>().text = (3 - Mathf.FloorToInt(countdown)).ToString();
+                }
+                else
+                {
+                    transform.FindChild("Countdown").GetComponent<Text>().text = "";
+                    transform.FindChild("CountdownTime").GetComponent<Text>().text = "Go";
+                    transform.FindChild("CountdownTime").GetComponent<Animator>().SetBool("isCountingdown", false);
+                    if (countdown > 3.5f)
+                    {
+                        isIntro = false;
+                        transform.FindChild("Countdown").gameObject.SetActive(false);
+                        isGameplay = true;
+                        transform.FindChild("InputText").GetComponent<AlphabetInputListener>().isControllerEnabled = true;
+                    }
                 }
             }
         }

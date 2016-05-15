@@ -40,6 +40,13 @@ public class TextGeneratorScript : MonoBehaviour {
         setLevel(1);
         curTime = generateDelay;
         rightTextDict = new List<string>();
+        if (tutorialID > 0)
+        {
+            transform.parent.FindChild("Instruction").gameObject.SetActive(true);
+        } else
+        {
+            transform.parent.FindChild("Instruction").gameObject.SetActive(false);
+        }
     }
 	
 	// Update is called once per frame
@@ -55,7 +62,7 @@ public class TextGeneratorScript : MonoBehaviour {
             {
                 string text;
                 // tutorial apa ngga, kalo tutorial selalu jamin minimal tiap word keluar
-                if (tutorialID <= 0)
+                if (tutorialID < 1)
                 {
                     wordIDToSpawn = Random.Range(0, textDict.Count);
                     text = textDict[Random.Range(0, textDict.Count)];

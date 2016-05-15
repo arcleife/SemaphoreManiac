@@ -171,18 +171,20 @@ public class DancematController : MonoBehaviour {
         {
             TG = false;
         }
-        /*
-        if (Input.GetKeyDown(KeyCode.Backspace)) // delete or backspace
+        if (!GetComponent<AlphabetInputListener>().isUseMyo)
         {
-            //delete char
-            if (GetComponent<Text>().text.Length > 0)
+            if (Input.GetKeyDown(KeyCode.Mouse1)) // delete or backspace
             {
-                GetComponent<Text>().text = GetComponent<Text>().text.Substring(0, GetComponent<Text>().text.Length - 1);
+                //delete char
+                if (GetComponent<Text>().text.Length > 0)
+                {
+                    GetComponent<Text>().text = GetComponent<Text>().text.Substring(0, GetComponent<Text>().text.Length - 1);
+                }
+            }
+            else if (Input.GetKeyDown(KeyCode.Mouse0)) // enter
+            {
+                transform.parent.FindChild("TextGenerator").GetComponent<TextGeneratorScript>().cek();
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Return)) // enter
-        {
-            transform.parent.FindChild("TextGenerator").GetComponent<TextGeneratorScript>().cek();
-        }*/
     }
 }

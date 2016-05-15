@@ -19,7 +19,7 @@ public class InstructionManager : MonoBehaviour {
     public void setInstructionImage(char c)
     {
         c = Char.ToUpper(c);
-        transform.FindChild("InstructionR").FindChild("InstructionImage").GetComponent<Image>().sprite = InstructionImage[c - 'A'];
-        transform.FindChild("InstructionR").FindChild("InstructionImage").FindChild("letter").GetComponent<Text>().text = c.ToString();
+        transform.FindChild("InstructionStep").FindChild("InstructionImage").GetComponent<Image>().sprite = InstructionImage[c - 'A'];
+        transform.FindChild("InstructionStep").FindChild("InstructionImage").FindChild("letter").GetComponent<Text>().text = c.ToString();
     }
 }
