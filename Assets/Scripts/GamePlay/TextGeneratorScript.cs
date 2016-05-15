@@ -74,6 +74,10 @@ public class TextGeneratorScript : MonoBehaviour {
                             wordIDToSpawn %= textDict.Count;
                         }
                     }
+                    if (transform.parent.FindChild("Instruction") != null)
+                    {
+                        transform.parent.FindChild("Instruction").GetComponent<InstructionManager>().setInstructionImage(text[0]);
+                    }
                 }
                 // bikin object
                 GameObject newText = (GameObject) Instantiate(textGameObject);
@@ -147,8 +151,8 @@ public class TextGeneratorScript : MonoBehaviour {
             case 1:
                 maxTextOnScreen = 1;
                 generateDelay = 2;
-                wordNumToFinish = textDict.Count;
                 tutorialID = 1;
+                wordNumToFinish = textDict.Count;
                 textFallSpeed = 1f;
                 break;
             case 2:
@@ -156,11 +160,13 @@ public class TextGeneratorScript : MonoBehaviour {
                 generateDelay = 5;
                 wordNumToFinish = 5;
                 tutorialID = 0;
-                textFallSpeed = 0.25f;
+                textFallSpeed = 0.5f;
                 break;
             default:
                 break;
         }
+
+        if (tutorialID > 0) wordNumToFinish = textDict.Count;
     }
 
     public void pauseGame(bool pause)
