@@ -37,10 +37,11 @@ public class TextBehavior : MonoBehaviour {
         {
             //jatoh trus ancur kalo lewat kamera
             transform.position = new Vector3(transform.position.x, transform.position.y - fallSpeed, 80);
-            if (transform.position.y < -0.5f * (transform.FindChild("Highlighted").GetComponent<RectTransform>().rect.height))
+            if (transform.position.y < TextGeneratorScript.ortoHeight * -0.5)
             {
                 // Debug.Log("health minus!");
                 HeartManager.decrement();
+                TextGeneratorScript.shakeCamera();
                 destroy();
             }
         }

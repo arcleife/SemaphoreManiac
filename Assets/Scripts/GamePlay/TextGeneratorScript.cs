@@ -3,18 +3,20 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using System.Collections;
 
-public class TextGeneratorScript : MonoBehaviour {
+public class TextGeneratorScript : MonoBehaviour
+{
     public int maxTextOnScreen;
     public GameObject textGameObject;
     public GameObject gameStateManager;
+    public GameObject scoreOutCaps;
 
     public float generateDelay;
     int wordIDToSpawn;
     float curTime;
     float randomAdditionalTime = 1f;
 
-    float ortoWidth;
-    float ortoHeight;
+    public static float ortoWidth;
+    public static float ortoHeight;
 
     public int wordNumToFinish; // berapa kata yang harus diancurin biar lolos stage
     int tutorialID; // tutorial mana yang dimunculin (0 buat tanpa tutorial)
@@ -28,18 +30,35 @@ public class TextGeneratorScript : MonoBehaviour {
 
     public AudioClip RightAnswerSFX;
     public AudioClip WrongAnswerSFX;
+
+    public bool isEndless = false;
+
+    private static Transform localTransform;
+    public static AudioClip localWrongAnswerSFX;
+
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
+        if (Data.level == 0) isEndless = true;
+
+        Debug.Log("Anda memilih level = " + Data.level);
+
+        localTransform = transform;
+        localWrongAnswerSFX = WrongAnswerSFX;
+
         isPaused = false;
         wordIDToSpawn = 0;
         tutorialWordCounter = 0;
+
         ortoHeight = 2 * Camera.main.orthographicSize;
         ortoWidth = ortoHeight * Camera.main.aspect;
-        Debug.Log("ortoHeight = " + ortoHeight);
-        Debug.Log("ortoWidth = " + ortoWidth);
+        // Debug.Log("ortoHeight = " + ortoHeight);
+        // Debug.Log("ortoWidth = " + ortoWidth);
+
         // load soal
         // nanti disesuaikan sama level
-        setLevel(1);
+        setLevel(Data.level);
+
         curTime = generateDelay;
         rightTextDict = new List<string>();
         if (tutorialID > 0)
@@ -53,6 +72,7 @@ public class TextGeneratorScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        Debug.Log(wordIDToSpawn);
         if (!isPaused && gameStateManager.GetComponent<GameStateManager>().isGameplay)
         {
             curTime += Time.deltaTime;
@@ -132,7 +152,9 @@ public class TextGeneratorScript : MonoBehaviour {
             if (transform.GetChild(i).GetComponent<TextBehavior>().textRemaining == "")
             {
                 transform.parent.FindChild("Score").FindChild("ScoreText").GetComponent<Animator>().SetBool("isScoreUp", true);
-                ScoreManager.increment(10 * transform.parent.FindChild("InputText").GetComponent<Text>().text.Length + HeartManager.getHeart());
+                int scoreGet = 10 * transform.parent.FindChild("InputText").GetComponent<Text>().text.Length + HeartManager.getHeart();
+                showScoreOutAnim(scoreGet, transform.GetChild(i).transform.position.x + 0.5f, transform.GetChild(i).transform.position.y, 80);
+                ScoreManager.increment(scoreGet);
                 transform.GetChild(i).GetComponent<TextBehavior>().destroy();
                 if (tutorialID > 0)
                 {
@@ -153,12 +175,31 @@ public class TextGeneratorScript : MonoBehaviour {
         }
     }
 
+    public static void shakeCamera()
+    {
+        localTransform.parent.GetComponent<CameraController>().ShakeCamera(0.05f, 0.2f);
+        AudioSource.PlayClipAtPoint(localWrongAnswerSFX, new Vector3(0, 0, 0));
+    }
+
     public void setLevel(int level)
     {
-        textDict = LevelLoader.getDict(level);
+        if (isEndless)
+            textDict = LevelLoader.getDict(1);
+        else
+            textDict = LevelLoader.getDict(level);
+
         //ngatur difficulty
         switch (level)
         {
+            case 0:
+                // mode endless
+                maxTextOnScreen = 3;
+                generateDelay = 4;
+                tutorialID = 0;
+                wordNumToFinish = 3;
+                textFallSpeed = 0.01f;
+                break;
+
             case 1:
                 // tutorial 1
                 // pengenalan 5 huruf pertama
@@ -168,18 +209,77 @@ public class TextGeneratorScript : MonoBehaviour {
                 wordNumToFinish = textDict.Count;
                 textFallSpeed = 0.01f;
                 break;
+
             case 2:
+                maxTextOnScreen = 2;
+                generateDelay = 7;
+                wordNumToFinish = 8;
+                tutorialID = 0;
+                textFallSpeed = 0.005f;
+                break;
+
+            case 3:
                 maxTextOnScreen = 5;
                 generateDelay = 5;
                 wordNumToFinish = 5;
-                tutorialID = 0;
+                tutorialID = 1;
                 textFallSpeed = 0.01f;
                 break;
+
+            case 4:
+                maxTextOnScreen = 2;
+                generateDelay = 7;
+                wordNumToFinish = 10;
+                tutorialID = 0;
+                textFallSpeed = 0.02f;
+                break;
+
+            case 5:
+                maxTextOnScreen = 3;
+                generateDelay = 7;
+                wordNumToFinish = 15;
+                tutorialID = 0;
+                textFallSpeed = 0.02f;
+                break;
+
+            case 6:
+                maxTextOnScreen = 5;
+                generateDelay = 5;
+                wordNumToFinish = 5;
+                tutorialID = 1;
+                textFallSpeed = 0.01f;
+                break;
+
+            case 9:
+                maxTextOnScreen = 5;
+                generateDelay = 5;
+                wordNumToFinish = 5;
+                tutorialID = 1;
+                textFallSpeed = 0.01f;
+                break;
+
+            case 12:
+                maxTextOnScreen = 5;
+                generateDelay = 5;
+                wordNumToFinish = 5;
+                tutorialID = 1;
+                textFallSpeed = 0.01f;
+                break;
+
             default:
+                maxTextOnScreen = 2;
+                generateDelay = 7;
+                wordNumToFinish = 10;
+                tutorialID = 0;
+                textFallSpeed = 0.002f;
                 break;
         }
 
-        if (tutorialID > 0) wordNumToFinish = textDict.Count;
+        if (tutorialID > 0)
+        {
+            wordNumToFinish = textDict.Count;
+            maxTextOnScreen = 1;
+        }
     }
 
     public void pauseGame(bool pause)
@@ -193,6 +293,21 @@ public class TextGeneratorScript : MonoBehaviour {
 
     void updateNextLetter()
     {
-        transform.parent.FindChild("InputText").transform.FindChild("NextLetter").GetComponent<Text>().text = transform.parent.FindChild("InputText").GetComponent<DancematController>().huruf;
+        string huruf = transform.parent.FindChild("InputText").GetComponent<DancematController>().huruf;
+        transform.parent.FindChild("InputText").transform.FindChild("NextLetter").GetComponent<Text>().text = huruf;
+
+        if (huruf != "")
+            transform.parent.FindChild("Input").transform.FindChild("Image").GetComponent<CharacterManager>().setCharacter(huruf[0]);
+        else
+            transform.parent.FindChild("Input").transform.FindChild("Image").GetComponent<CharacterManager>().setIdle();
+    }
+
+    void showScoreOutAnim(int score, float x, float y, float z)
+    {
+        GameObject scoreCaps = (GameObject)Instantiate(scoreOutCaps);
+        scoreCaps.transform.SetParent(transform.parent);
+        scoreCaps.transform.localScale = new Vector3(1, 1, 1);
+        scoreCaps.transform.position = new Vector3(x, y, z);
+        scoreCaps.GetComponent<Text>().text = score.ToString();
     }
 }

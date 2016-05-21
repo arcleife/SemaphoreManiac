@@ -6,6 +6,11 @@ public class HeartManager : MonoBehaviour {
     private const int MAX_HEART = 3;
     private static int jumHeart = MAX_HEART;
 
+    public static void reset()
+    {
+        jumHeart = MAX_HEART;
+    }
+
     public static void increment()
     {
         if (jumHeart < MAX_HEART)

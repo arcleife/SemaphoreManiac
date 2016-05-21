@@ -16,6 +16,7 @@ public class MenuScript : MonoBehaviour {
 
     public void changeScreen(string sceneName)
     {
+        Data.level = 0;
         SceneManager.LoadScene(sceneName);
     }
 

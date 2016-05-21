@@ -14,7 +14,7 @@ public class DancematController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         // default bernilai false
-        //T = B = U = S = TL = TG = BL = BD = false;
+        T = B = U = S = TL = TG = BL = BD = false;
 
         // Input Manager : Type pada Horizontal dan Vertical harus "Joystick Axis"
         if (Input.GetAxis("Horizontal") > 0 && Input.GetAxis("Horizontal") < 1) T = B = true; // kanan dan kiri
@@ -32,7 +32,6 @@ public class DancematController : MonoBehaviour {
         
         // pake keyboard dulu
         keyboardPlaceholderInput();
-
 
         // pengkodean huruf sesuai semaphore
         if (!transform.parent.GetComponent<GameStateManager>().isPaused)
@@ -92,15 +91,13 @@ public class DancematController : MonoBehaviour {
                 huruf = "Z";
         }
     }
-
     
-
-    void keyboardPlaceholderInput()
+    private void keyboardPlaceholderInput()
     {
         if (GetComponent<AlphabetInputListener>().isControllerEnabled)
         {
             // timur
-            if (Input.GetKeyDown(KeyCode.D))
+            if (Input.GetKey(KeyCode.D))
             {
                 T = true;
             }
@@ -109,7 +106,7 @@ public class DancematController : MonoBehaviour {
                 T = false;
             }
             // barat
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKey(KeyCode.A))
             {
                 B = true;
             }
@@ -118,7 +115,7 @@ public class DancematController : MonoBehaviour {
                 B = false;
             }
             // utara
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKey(KeyCode.W))
             {
                 U = true;
             }
@@ -127,7 +124,7 @@ public class DancematController : MonoBehaviour {
                 U = false;
             }
             // selatan
-            if (Input.GetKeyDown(KeyCode.X))
+            if (Input.GetKey(KeyCode.X))
             {
                 S = true;
             }
@@ -136,7 +133,7 @@ public class DancematController : MonoBehaviour {
                 S = false;
             }
             // barat daya
-            if (Input.GetKeyDown(KeyCode.Z))
+            if (Input.GetKey(KeyCode.Z))
             {
                 BD = true;
             }
@@ -145,7 +142,7 @@ public class DancematController : MonoBehaviour {
                 BD = false;
             }
             // timur laut
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKey(KeyCode.E))
             {
                 TL = true;
             }
@@ -154,7 +151,7 @@ public class DancematController : MonoBehaviour {
                 TL = false;
             }
             // barat laut
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (Input.GetKey(KeyCode.Q))
             {
                 BL = true;
             }
@@ -163,7 +160,7 @@ public class DancematController : MonoBehaviour {
                 BL = false;
             }
             // tenggara
-            if (Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKey(KeyCode.C))
             {
                 TG = true;
             }
@@ -171,20 +168,18 @@ public class DancematController : MonoBehaviour {
             {
                 TG = false;
             }
-            if (!GetComponent<AlphabetInputListener>().isUseMyo)
+            // delete or backspace
+            if (Input.GetKeyDown(KeyCode.Mouse1))
             {
-                if (Input.GetKeyDown(KeyCode.Mouse1)) // delete or backspace
+                //delete char
+                if (GetComponent<Text>().text.Length > 0)
                 {
-                    //delete char
-                    if (GetComponent<Text>().text.Length > 0)
-                    {
-                        GetComponent<Text>().text = GetComponent<Text>().text.Substring(0, GetComponent<Text>().text.Length - 1);
-                    }
+                    GetComponent<Text>().text = GetComponent<Text>().text.Substring(0, GetComponent<Text>().text.Length - 1);
                 }
-                else if (Input.GetKeyDown(KeyCode.Mouse0)) // enter
-                {
-                    transform.parent.FindChild("TextGenerator").GetComponent<TextGeneratorScript>().cek();
-                }
+            }
+            else if (Input.GetKeyDown(KeyCode.Mouse0)) // enter
+            {
+                transform.parent.FindChild("TextGenerator").GetComponent<TextGeneratorScript>().cek();
             }
         }
     }
